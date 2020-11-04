@@ -5,8 +5,9 @@ var pool = mysql.createPool({
     "password" : "wellbalas123",
     "database" : "wellbalas",
     "host" : "localhost",
-    "port": 3306
+    "port": 3306,
 
+    "JWT_KEY": "segredo"
 });
 
 exports.pool = pool;

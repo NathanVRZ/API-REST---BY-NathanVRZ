@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const mysql = require('../config').pool;
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const { token } = require('morgan');
 
 router.post('/cadastro', (req, res, next) => {
     mysql.getConnection((err,conn) => {
@@ -53,7 +55,16 @@ router.post('/login', (req, res, next) => {
                 return res.status(401).send({ mensagem: 'falha na autenticação' })
                 }
                 if (result) {
-                    return res.status(200).send({ mensagem: 'Autenticado com sucesso' })
+                    const token = jwt.sign({
+                        idUsuario: results[0].idUsuario,
+                        Email: results[0].Email
+                    }, 'process.env.JWT_KEY', {
+                        expiresIn: "1h"
+                    });
+                    return res.status(200).send({ 
+                        mensagem: 'Autenticado com sucesso',
+                        token: token 
+                    })
                 }
                 return res.status(401).send({mensagem: 'falha na autenticação'})
             });

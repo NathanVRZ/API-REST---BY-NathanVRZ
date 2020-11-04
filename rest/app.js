@@ -7,6 +7,7 @@ const rotaLojas = require('./routes/lojas');
 const rotaProdutos = require('./routes/produtos');
 const rotaPedidos = require('./routes/pedidos');
 const rotasUsuarios = require('./routes/usuarios');
+const Cors = require('cors');
 
 app.use(morgan('dev'));
 app.use(BodyParser.urlencoded({extended: false})); // apenas dados simples
@@ -23,7 +24,7 @@ app.use((req, res, next) => {
     next();
 })
 
-
+app.use(Cors());
 app.use('/lojas', rotaLojas);
 app.use('/produtos', rotaProdutos);
 app.use('/pedidos', rotaPedidos);
