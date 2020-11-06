@@ -3,9 +3,9 @@ const app = express();
 const morgan = require('morgan');
 const BodyParser = require('body-parser');
 
-const rotaLojas = require('./routes/lojas'); 
+// const rotaLojas = require('./routes/lojas'); 
 const rotaProdutos = require('./routes/produtos');
-const rotaPedidos = require('./routes/pedidos');
+const rotaIngredientes = require('./routes/ingredientes');
 const rotasUsuarios = require('./routes/usuarios');
 const cors = require('cors');
 
@@ -14,9 +14,9 @@ app.use(BodyParser.urlencoded({extended: false})); // apenas dados simples
 app.use(BodyParser.json()); //json na entrada do body
 
 app.use(cors());
-app.use('/lojas', rotaLojas);
+// app.use('/lojas', rotaLojas);
 app.use('/produtos', rotaProdutos);
-app.use('/pedidos', rotaPedidos);
+app.use('/ingredientes', rotaIngredientes);
 app.use('/usuarios', rotasUsuarios);
 
 // QUANDO NÃO ENCONTRA ROTA
