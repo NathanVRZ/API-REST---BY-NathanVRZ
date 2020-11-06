@@ -5,6 +5,21 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { token } = require('morgan');
 
+router.get('/', (req, res, next) => {
+    mysql.getConnection((error, conn) => {
+        if(error) { return res.status(500).send({error: erro})}
+        conn.query(
+            'SELECT * FROM usuario',
+            (erro, resultado, fields) => {
+                if (error) {return res.status(500).send( { error: error}) }
+                return res.status(200).send({response: resultado})
+            }
+        )
+    });
+
+});
+
+
 router.post('/cadastro', (req, res, next) => {
     mysql.getConnection((err,conn) => {
         if (err) {return res.status(500).send({ error: error }) }

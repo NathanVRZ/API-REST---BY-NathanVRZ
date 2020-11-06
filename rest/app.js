@@ -7,24 +7,13 @@ const rotaLojas = require('./routes/lojas');
 const rotaProdutos = require('./routes/produtos');
 const rotaPedidos = require('./routes/pedidos');
 const rotasUsuarios = require('./routes/usuarios');
-const Cors = require('cors');
+const cors = require('cors');
 
 app.use(morgan('dev'));
 app.use(BodyParser.urlencoded({extended: false})); // apenas dados simples
 app.use(BodyParser.json()); //json na entrada do body
 
-app.use((req, res, next) => {
-    res.header('Acess-Control-Allow-Origin', '*');
-    res.header('Acess-Control-Allow-Header', 'Origin, X-Requested-With, Content-type, Accept, Authorization');
-
-    if(req.method === 'OPTIONS') {
-        res.header('Acess-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
-        return res.status(200).send({});
-    }
-    next();
-})
-
-app.use(Cors());
+app.use(cors());
 app.use('/lojas', rotaLojas);
 app.use('/produtos', rotaProdutos);
 app.use('/pedidos', rotaPedidos);
