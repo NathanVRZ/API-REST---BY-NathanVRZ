@@ -6,6 +6,7 @@ exports.getIngredientes = (req, res, next) => {
         conn.query(
             'SELECT * FROM ingrediente',
             (erro, resultado, fields) => {
+                conn.release();
                 if (error) {return res.status(500).send( { error: error}) }
                 return res.status(200).send({response: resultado})
             }
@@ -22,11 +23,11 @@ exports.postIngredientes = (req, res, next) => {
             [req.body.nome, req.body.quantidade],
             (error, resultado, field) => {  
                 conn.release();
-                if(error) { return res.status(500).send({error: erro})}
+                if(error) { return res.status(500).send({error: error})}
 
                 res.status(201).send({
                     mensagem: 'Ingrediente criado com sucesso',
-                    idProduto: resultado.insertid 
+                    idIngrediente: resultado.insertid 
                 });
 
             }
@@ -39,8 +40,9 @@ exports.getUmIngrediente = (req, res, next) => {
         if(error) { return res.status(500).send({error: erro})}
         conn.query(
             'SELECT * FROM ingrediente WHERE idIngrediente = ?',
-            [req.params.idProduto],
+            [req.params.idIngrediente],
             (erro, resultado, fields) => {
+                conn.release();
                 if (error) {return res.status(500).send( { error: error}) }
                 return res.status(200).send({response: resultado})
             }
@@ -58,7 +60,7 @@ exports.patchIngrediente = (req, res, next) => {
                 WHERE idIngrediente = ?`,
             [   req.body.nome, 
                 req.body.quantidade, 
-                req.body.idProduto
+                req.body.idIngrediente
             ],
             (error, resultado, field) => {  
                 conn.release();
@@ -77,8 +79,8 @@ exports.patchIngrediente = (req, res, next) => {
     mysql.getConnection((error, conn) => {
         if(error) { return res.status(500).send({error: erro})}
         conn.query(
-            `DELETE FROM produtos WHERE idIngrediente = ?`,
-            [req.body.idProduto],
+            `DELETE FROM ingrediente WHERE idIngrediente = ?`,
+            [req.body.idIngrediente],
             (error, resultado, field) => {  
                 conn.release();
                 if(error) { return res.status(500).send({error: erro})}

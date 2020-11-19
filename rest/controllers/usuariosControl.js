@@ -8,6 +8,7 @@ exports.getUsuarios = (req, res, next) => {
         conn.query(
             'SELECT * FROM usuario',
             (erro, resultado, fields) => {
+                conn.release();
                 if (error) {return res.status(500).send( { error: error}) }
                 return res.status(200).send({response: resultado})
             }
@@ -80,4 +81,19 @@ exports.postLogin = (req, res, next) => {
             });
         });
     });
+};
+
+exports.getUmUsuario = (req, res, next) => {
+    mysql.getConnection((error, conn) => {
+        if(error) { return res.status(500).send({error: erro})}
+        conn.query(
+            'SELECT * FROM usuario WHERE idUsuario = ?',
+            [req.params.idUsuario],
+            (erro, resultado, fields) => {
+                conn.release();
+                if (error) {return res.status(500).send( { error: error}) }
+                return res.status(200).send({response: resultado})
+            }
+        )
+    });  
 };

@@ -8,7 +8,7 @@ const ProdutosControle = require('../controllers/ProdutosControl');
 router.get('/', ProdutosControle.getProdutos);
 router.post('/', ProdutosControle.postProduto);
 router.get('/:idProduto', ProdutosControle.getUmProduto);
-router.patch('/', ProdutosControle.patchProduto);
+router.put('/', ProdutosControle.putProduto);
 router.delete('/', ProdutosControle.deleteProduto);
 
 

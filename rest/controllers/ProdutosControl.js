@@ -42,6 +42,7 @@ exports.getUmProduto = (req, res, next) => {
             'SELECT * FROM produtos WHERE idProduto = ?',
             [req.params.idProduto],
             (erro, resultado, fields) => {
+                conn.release();
                 if (error) {return res.status(500).send( { error: error}) }
                 return res.status(200).send({response: resultado})
             }
@@ -49,7 +50,7 @@ exports.getUmProduto = (req, res, next) => {
     });  
 };
 
-exports.patchProduto = (req, res, next) => {
+exports.putProduto = (req, res, next) => {
     mysql.getConnection((error, conn) => {
         if(error) { return res.status(500).send({error: erro})}
         conn.query(
