@@ -27,7 +27,7 @@ exports.postCadastro = (req, res, next) => {
                 bcrypt.hash(req.body.senha, 10, (errBcrypt, hash) => {
                     if (errBcrypt) { return res.status(500).send({ error: errBcrypt}) }
                     conn.query(
-                        `INSERT INTO usuario (Email, senha, Loja, Rua, CNPJ, UnidadesAssinadas) VALUES (?,?,?,?,?,?)`,
+                        `INSERT INTO usuario (Email, senha, Loja, Rua, CNPJ, UnidadesAssinadas, admin) VALUES (?,?,?,?,?,?,0)`,
                         [req.body.Email, hash, req.body.Loja, req.body.Rua, req.body.CNPJ, req.body.UnidadesAssinadas], 
                         (error, results) => {
                             conn.release();
@@ -68,13 +68,16 @@ exports.postLogin = (req, res, next) => {
                 if (result) {
                     const token = jwt.sign({
                         idUsuario: results[0].idUsuario,
-                        Email: results[0].Email
+                        Email: results[0].Email,
+                        admin: results[0].admin
                     }, 'process.env.JWT_KEY', {
                         expiresIn: "1h"
                     });
                     return res.status(200).send({ 
                         mensagem: 'Autenticado com sucesso',
-                        token: token 
+                        token: token,
+                        idUsuario: results[0].idUsuario,
+                        admin: results[0].admin
                     })
                 }
                 return res.status(401).send({mensagem: 'falha na autenticação'})
