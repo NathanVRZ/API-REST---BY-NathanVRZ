@@ -1,13 +1,13 @@
 const mysql = require('mysql');
 
 var pool = mysql.createPool({
-    "user" : "Balas",
-    "password" : "wellbalas123",
-    "database" : "wellbalas",
-    "host" : "localhost",
-    "port": 3306,
+    "user" : "",
+    "password" : "",
+    "database" : "",
+    "host" : "",
+    "port": ,
 
-    "JWT_KEY": "segredo"
+    "JWT_KEY": ""
 });
 
 exports.pool = pool;
